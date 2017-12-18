@@ -31,11 +31,28 @@ $search = Usuario::search("jos");
 echo json_encode($search);
 */
 
-/* */
+/* 
 //Carrega um usuario usando login e senha
 $usuario = new Usuario();
 $usuario->login("root", "!@#$");
 echo $usuario;
+*/
 
+/*
+Criando novo usuario
+$aluno = new Usuario("andred", "12434" );
+$aluno->insert();
+
+echo $aluno;
+*/
+
+/**/
+
+$usuario = new Usuario();
+
+$usuario->loadById(8);
+echo $usuario;
+
+$usuario->update("professor", "!#@$!$#%");
  ?>
 

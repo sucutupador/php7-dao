@@ -40,7 +40,7 @@ class Usuario {
 		$this->dtcadastro = $value;
 	}
 
-
+	//Busca por uma única pessoa
 	public function loadById($id){
 
 		$sql = new Sql();
@@ -51,15 +51,11 @@ class Usuario {
 
 		if (count($results) > 0) {
 			
-			$row = $results[0];
-
-			$this->setIdusuario($row['idusuario']);
-			$this->setDeslogin($row['deslogin']);
-			$this->setDessenha($row['dessenha']);
-			$this->setDtcadastro($row['dtcadastro']);
+			$this->setData($results[0]);		
 		}
 	}
 
+	//Faz um seleect de todos os dados
 	public static function getList(){
 
 		$sql = new SQL();
@@ -68,6 +64,7 @@ class Usuario {
 
 	}
 
+	//Pesquisa por dados
 	public static function search($Login){
 
 		$sql = new SQL();
@@ -77,6 +74,7 @@ class Usuario {
 			));
 	}
 
+	//Método que verifica login e senha
 	public function login($Login, $Password){
 
 		$sql = new Sql();
@@ -88,17 +86,56 @@ class Usuario {
 
 		if (count($results) > 0) {
 			
-			$row = $results[0];
+			$this->setData($results[0]);
 
-			$this->setIdusuario($row['idusuario']);
-			$this->setDeslogin($row['deslogin']);
-			$this->setDessenha($row['dessenha']);
-			$this->setDtcadastro($row['dtcadastro']);
 		} else {
 
 			throw new Exception("Login e/ou senha inválidos.");
 			
 		}
+	}
+
+	//Set de dados 
+	public function setData($data){
+
+		$this->setIdusuario($data['idusuario']);
+		$this->setDeslogin($data['deslogin']);
+		$this->setDessenha($data['dessenha']);
+		$this->setDtcadastro($data['dtcadastro']);
+
+	}
+
+	//INSERT de dados
+	public function insert(){
+
+		$sql = new Sql();
+		$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
+			':LOGIN'=>$this->getDeslogin(),
+			':PASSWORD'=>$this->getDessenha()
+			));
+
+		if (count($results) > 0) {
+			$this->setData($results[0]);
+		}
+	}
+
+	public function update($Login, $password){
+
+		$this->setDeslogin($Login);
+		$this->setDessenha($password);
+
+		$sql = new Sql();
+		$sql->query("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE idusuario = :ID", array(
+			':LOGIN'=>$this->getDeslogin(),
+			':PASSWORD'=>$this->getDessenha(),
+			':ID'=>$this->getIdusuario()
+			));
+	}
+
+	public function __construct($login = "", $password = ""){
+
+		$this->setDeslogin($login); 
+		$this->setDessenha($password);
 	}
 
 	public function __toString(){
