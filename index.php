@@ -46,13 +46,31 @@ $aluno->insert();
 echo $aluno;
 */
 
-/**/
-
+/*
+Alerar um usuario
 $usuario = new Usuario();
 
 $usuario->loadById(8);
 echo $usuario;
 
 $usuario->update("professor", "!#@$!$#%");
+ 
+*/
+
+/**/
+//Deletetar usuario
+
+$usuario = new Usuario();
+$usuario->loadById(7);
+$usuario->delete();
+
+echo $usuario;
+
+
+
+
+
+
+
  ?>
 
