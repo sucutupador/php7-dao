@@ -11,13 +11,31 @@ $usuarios = $sql->select("SELECT * FROM tb_usuarios");
 echo json_encode($usuarios);
 */
 
+/*
+	Carrega um usuario >______<
 $root = new Usuario();
-
-$root->loadById(3);
-
+$root->loadById(4);
 echo $root;
+*/
 
+/*
+CARREGA uma lista de usuarios
+$lista = usuario::getList();
+echo json_encode($lista);
+*/
 
+/*
+Carrega uma lista de usuários buscando pelo login
+$search = Usuario::search("jos");
 
+echo json_encode($search);
+*/
+
+/* */
+//Carrega um usuario usando login e senha
+$usuario = new Usuario();
+$usuario->login("root", "!@#$");
+echo $usuario;
 
  ?>
+
